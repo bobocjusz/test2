@@ -29,6 +29,8 @@ public class polaczenie {
                         e.printStackTrace();
                         String s;
                         String dupa;
+                        int jajco;
+                        
                         return tekst;
                         
                 }
