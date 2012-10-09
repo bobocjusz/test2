@@ -48,7 +48,7 @@ public class polaczenie {
                         tekst="Zajebiście działa !";
                          return tekst;
                 } else {
-                        tekst="Nie moge się połączyć! I jest mega dupa";
+                        tekst="Nie moge się połączyć!";
                          return tekst;
                 }
                // Dupa jasiu
