@@ -27,9 +27,6 @@ public class polaczenie {
                         panel.getFrames();
                         tekst=("Nie chodzi bilbioteka, jest lipa");
                         e.printStackTrace();
-                        String s;
-                        String dupa;
-                        int jajco;
                         
                         return tekst;
                         
@@ -51,7 +48,7 @@ public class polaczenie {
                         tekst="Zajebiście działa !";
                          return tekst;
                 } else {
-                        tekst="Nie moge się połączyć!";
+                        tekst="Nie moge się połączyć! I jest mega dupa";
                          return tekst;
                 }
                // Dupa jasiu
