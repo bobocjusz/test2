@@ -28,6 +28,7 @@ public class polaczenie {
                         tekst=("Nie chodzi bilbioteka, jest lipa");
                         e.printStackTrace();
                         String s;
+                        String dupa;
                         return tekst;
                         
                 }
