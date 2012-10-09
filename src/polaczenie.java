@@ -27,8 +27,8 @@ public class polaczenie {
                         panel.getFrames();
                         tekst=("Nie chodzi bilbioteka, jest lipa");
                         e.printStackTrace();
-                        String s;
-                        String dupa;
+ 
+                        int dupa;
                         return tekst;
                         
                 }
