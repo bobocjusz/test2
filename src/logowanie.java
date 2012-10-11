@@ -34,6 +34,7 @@ public class logowanie extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("ZPI System e-commerce");
 
         jLabel1.setText("Witam w bazie danych !");
 
