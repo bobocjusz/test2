@@ -1,3 +1,10 @@
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -8,12 +15,13 @@
  * @author Slawek
  */
 public class logowanie extends javax.swing.JFrame {
-
+    Connection connection;
     /**
      * Creates new form logowanie
      */
-    public logowanie() {
+    public logowanie() throws ClassNotFoundException, SQLException {
         initComponents();
+        loguj = new Polaczenie();
     }
 
     /**
@@ -117,17 +125,30 @@ public class logowanie extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-GUI = new GUI();
-this.dispose();
- GUI.setVisible(true);
-//this.dispose();
-// TODO add your handling code here:
+        try {
+            GUI = new GUI();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(logowanie.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(logowanie.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.dispose();
+        //GUI.setVisible(true);
+
+        dialog = loguj.tekst;
+        JOptionPane.showMessageDialog(this, dialog);
+        if (dialog.equals("Połączono!")) {
+                GUI.setVisible(true);
+        }
+        else {
+                //new logowanie();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-this.dispose();
-System.exit(0);
-// TODO add your handling code here:
+        this.dispose();
+        System.exit(0);
+    // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -167,7 +188,13 @@ System.exit(0);
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                new logowanie().setVisible(true);
+                try {
+                    new logowanie().setVisible(true);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(logowanie.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(logowanie.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -180,5 +207,7 @@ System.exit(0);
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
-GUI GUI;
+    GUI GUI;
+    Polaczenie loguj;
+    String dialog;
 }

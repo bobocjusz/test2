@@ -10,6 +10,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.Image.*;
 import java.awt.image.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.TableColumn;
 /**
  *
  * @author Slawek
@@ -19,9 +24,11 @@ public class GUI extends javax.swing.JFrame {
     /**
      * Creates new form GUI
      */
-    public GUI() {
+    public GUI() throws ClassNotFoundException, SQLException {
         initComponents();
-     wybierzplik.setVisible(false);
+        polaczenie = new Polaczenie();
+        wybierzplik.setVisible(false);
+        
     }
 
     /**
@@ -60,6 +67,8 @@ public class GUI extends javax.swing.JFrame {
         jTextField9 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
+        jLabel27 = new javax.swing.JLabel();
+        jTextField24 = new javax.swing.JTextField();
         DodajDostawce = new javax.swing.JInternalFrame();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -105,6 +114,7 @@ public class GUI extends javax.swing.JFrame {
         zdjecie = new javax.swing.JLabel();
         WybierzPlik = new javax.swing.JInternalFrame();
         wybierzplik = new javax.swing.JFileChooser();
+        wyswietlKlientow = new javax.swing.JInternalFrame();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -170,7 +180,7 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel11.setText("Miasto");
 
-        jLabel12.setText("NIP Klienta");
+        jLabel12.setText("NIP");
 
         jLabel13.setText("Ulica");
 
@@ -188,17 +198,24 @@ public class GUI extends javax.swing.JFrame {
         });
 
         jButton2.setText("Dodaj");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jTextField9.setEnabled(false);
 
         jLabel4.setText("NIK");
+
+        jLabel27.setText("Telefon");
 
         javax.swing.GroupLayout DodajKlientaLayout = new javax.swing.GroupLayout(DodajKlienta.getContentPane());
         DodajKlienta.getContentPane().setLayout(DodajKlientaLayout);
         DodajKlientaLayout.setHorizontalGroup(
             DodajKlientaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(DodajKlientaLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(63, Short.MAX_VALUE)
                 .addGroup(DodajKlientaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(DodajKlientaLayout.createSequentialGroup()
                         .addGap(10, 10, 10)
@@ -224,7 +241,8 @@ public class GUI extends javax.swing.JFrame {
                                 .addComponent(jLabel3)
                                 .addComponent(jLabel2)
                                 .addComponent(jLabel11)
-                                .addComponent(jLabel12))
+                                .addComponent(jLabel12)
+                                .addComponent(jLabel27))
                             .addGap(66, 66, 66)
                             .addGroup(DodajKlientaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -234,7 +252,8 @@ public class GUI extends javax.swing.JFrame {
                                 .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextField24, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(22, 22, 22))
         );
         DodajKlientaLayout.setVerticalGroup(
@@ -285,14 +304,21 @@ public class GUI extends javax.swing.JFrame {
                     .addGroup(DodajKlientaLayout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(DodajKlientaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(DodajKlientaLayout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addComponent(jLabel27))
+                    .addGroup(DodajKlientaLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jTextField24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(31, 31, 31)
                 .addGroup(DodajKlientaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jButton1))
-                .addContainerGap(122, Short.MAX_VALUE))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
 
-        DodajKlienta.setBounds(30, 10, 342, 548);
+        DodajKlienta.setBounds(30, 10, 395, 560);
         jDesktopPane1.add(DodajKlienta, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         DodajDostawce.setTitle("Dodaj dostawcę");
@@ -422,10 +448,10 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(DodajDostawceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
                     .addComponent(jButton4))
-                .addContainerGap(105, Short.MAX_VALUE))
+                .addContainerGap(121, Short.MAX_VALUE))
         );
 
-        DodajDostawce.setBounds(0, 0, 334, 554);
+        DodajDostawce.setBounds(0, 0, 334, 566);
         jDesktopPane1.add(DodajDostawce, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         DodajTowar.setTitle("Dodaj towar");
@@ -512,7 +538,7 @@ public class GUI extends javax.swing.JFrame {
         DodajTowarLayout.setVerticalGroup(
             DodajTowarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(DodajTowarLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(27, Short.MAX_VALUE)
                 .addGroup(DodajTowarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(DodajTowarLayout.createSequentialGroup()
                         .addGroup(DodajTowarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -554,7 +580,7 @@ public class GUI extends javax.swing.JFrame {
                 .addGap(58, 58, 58))
         );
 
-        DodajTowar.setBounds(0, 0, 629, 353);
+        DodajTowar.setBounds(0, 0, 629, 369);
         jDesktopPane1.add(DodajTowar, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         WybierzPlik.setTitle("Dodaj towar");
@@ -568,10 +594,10 @@ public class GUI extends javax.swing.JFrame {
         );
         WybierzPlikLayout.setVerticalGroup(
             WybierzPlikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 408, Short.MAX_VALUE)
+            .addGap(0, 424, Short.MAX_VALUE)
         );
 
-        WybierzPlik.setBounds(0, 0, 608, 441);
+        WybierzPlik.setBounds(0, 0, 608, 457);
         jDesktopPane1.add(WybierzPlik, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         wybierzplik.addActionListener(new java.awt.event.ActionListener() {
@@ -581,6 +607,23 @@ public class GUI extends javax.swing.JFrame {
         });
         wybierzplik.setBounds(0, 0, 582, 397);
         jDesktopPane1.add(wybierzplik, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        wyswietlKlientow.setTitle("Klienci");
+        wyswietlKlientow.setVisible(false);
+
+        javax.swing.GroupLayout wyswietlKlientowLayout = new javax.swing.GroupLayout(wyswietlKlientow.getContentPane());
+        wyswietlKlientow.getContentPane().setLayout(wyswietlKlientowLayout);
+        wyswietlKlientowLayout.setHorizontalGroup(
+            wyswietlKlientowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 452, Short.MAX_VALUE)
+        );
+        wyswietlKlientowLayout.setVerticalGroup(
+            wyswietlKlientowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 431, Short.MAX_VALUE)
+        );
+
+        wyswietlKlientow.setBounds(0, 0, 468, 464);
+        jDesktopPane1.add(wyswietlKlientow, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jMenu6.setText("Aplikacja");
 
@@ -642,6 +685,11 @@ public class GUI extends javax.swing.JFrame {
         jMenu4.add(DodajklientaPM);
 
         PrzegladajklientowPM.setText("Przegladaj klientów");
+        PrzegladajklientowPM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PrzegladajklientowPMActionPerformed(evt);
+            }
+        });
         jMenu4.add(PrzegladajklientowPM);
 
         WyszukajklientowPM.setText("Wyszukaj klientów");
@@ -722,11 +770,17 @@ public class GUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 823, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 823, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 785, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 785, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -734,7 +788,13 @@ public class GUI extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         this.dispose();
-        logowanie = new logowanie();
+        try {
+            logowanie = new logowanie();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
         logowanie.setVisible(true);
 
 // TODO add your handling code here:
@@ -762,39 +822,38 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
- DodajKlienta.setVisible(false); jTextField1.setText(null);jTextField2.setText(null);
- jTextField3.setText(null);jTextField4.setText(null);jTextField5.setText(null);
- jTextField6.setText(null);jTextField7.setText(null);jTextField8.setText(null);
- Osobafizyczna.setSelected(true);
- jLabel2.setText("Imie");  
-jLabel3.setVisible(true); jTextField2.setVisible(true);
-
+        DodajKlienta.setVisible(false); jTextField1.setText(null);jTextField2.setText(null);
+        jTextField3.setText(null);jTextField4.setText(null);jTextField5.setText(null);
+        jTextField6.setText(null);jTextField7.setText(null);jTextField8.setText(null);
+        Osobafizyczna.setSelected(true);
+        jLabel2.setText("Imie");  
+        jLabel3.setVisible(true); jTextField2.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void OsobafizycznaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OsobafizycznaActionPerformed
-jLabel2.setText("Imie");  
-jLabel3.setVisible(true); jTextField2.setVisible(true);  
-jTextField1.setText(null);
-// TODO add your handling code here:
+        jLabel2.setText("Imie");  
+        jLabel3.setVisible(true); jTextField2.setVisible(true);  
+        jTextField1.setText(null);
+        // TODO add your handling code here:
     }//GEN-LAST:event_OsobafizycznaActionPerformed
 
     private void FirmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FirmaActionPerformed
 
-jLabel2.setText("Nazwa firmy");  
-jLabel3.setVisible(false); jTextField2.setVisible(false);
-jTextField1.setText(null);// TODO add your handling code here:
+        jLabel2.setText("Nazwa firmy");  
+        jLabel3.setVisible(false); jTextField2.setVisible(false);
+        jTextField1.setText(null);// TODO add your handling code here:
     }//GEN-LAST:event_FirmaActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-DodajDostawce.setVisible(false);
+        DodajDostawce.setVisible(false);
         jTextField10.setText(null); jTextField11.setText(null);  jTextField12.setText(null);   
-jTextField13.setText(null); jTextField14.setText(null);  jTextField15.setText(null);
-jTextField16.setText(null); jTextField17.setText(null);  jTextField18.setText(null);
-jTextField19.setText(null);// TODO add your handling code here:
+        jTextField13.setText(null); jTextField14.setText(null);  jTextField15.setText(null);
+        jTextField16.setText(null); jTextField17.setText(null);  jTextField18.setText(null);
+        jTextField19.setText(null);// TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
- DodajDostawce.setVisible(true);
+        DodajDostawce.setVisible(true);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
@@ -802,28 +861,28 @@ jTextField19.setText(null);// TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-DodajTowar.setVisible(false);    
- jTextField20.setText(null); jTextField21.setText(null);  jTextField22.setText(null);   
-jTextField23.setText(null); jTextField26.setText(null);
-zdjecie.setIcon(null);// TODO add your handling code here:
+        DodajTowar.setVisible(false);    
+        jTextField20.setText(null); jTextField21.setText(null);  jTextField22.setText(null);   
+        jTextField23.setText(null); jTextField26.setText(null);
+        zdjecie.setIcon(null);// TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
-DodajTowar.setVisible(true);        // TODO add your handling code here:
+        DodajTowar.setVisible(true);        // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem14ActionPerformed
 
     private void ZaladujZdjecieTowaruActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ZaladujZdjecieTowaruActionPerformed
-//WybierzPlik.setVisible(true);  
+        //WybierzPlik.setVisible(true);  
         wybierzplik.setVisible(true);
-   int returnVal = wybierzplik.showOpenDialog(this);
-    if (returnVal == wybierzplik.APPROVE_OPTION) {
-        java.io.File file = wybierzplik.getSelectedFile();
-        Obrazy obrazy = new Obrazy();
-        jTextField26.setText(file.getAbsolutePath());
-        javax.swing.ImageIcon icon = new javax.swing.ImageIcon(file.getAbsolutePath()); 
-        ImageIcon icon2 = new ImageIcon(obrazy.getScaledImage(icon.getImage(), 150 , 150));
-        zdjecie.setIcon(icon2); 
-                }
+        int returnVal = wybierzplik.showOpenDialog(this);
+        if (returnVal == wybierzplik.APPROVE_OPTION) {
+            java.io.File file = wybierzplik.getSelectedFile();
+            Obrazy obrazy = new Obrazy();
+            jTextField26.setText(file.getAbsolutePath());
+            javax.swing.ImageIcon icon = new javax.swing.ImageIcon(file.getAbsolutePath()); 
+            ImageIcon icon2 = new ImageIcon(obrazy.getScaledImage(icon.getImage(), 150 , 150));
+            zdjecie.setIcon(icon2); 
+        }
 // TODO add your handling code here:
     }//GEN-LAST:event_ZaladujZdjecieTowaruActionPerformed
 
@@ -831,6 +890,63 @@ DodajTowar.setVisible(true);        // TODO add your handling code here:
         // TODO add your handling code here:
     }//GEN-LAST:event_wybierzplikActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        String imie = null;
+        String nazwisko = null;
+        String nazwa_firmy = null;
+  
+        if (Osobafizyczna.isSelected()) {
+            imie = jTextField1.getText();
+            nazwisko = jTextField2.getText(); 
+        }
+        else {
+            nazwa_firmy = jTextField1.getText();
+        }
+        
+        String tekst = "Błąd !";
+        try {
+            tekst = polaczenie.zapiszKlient(jTextField3.getText(), nazwa_firmy, nazwisko, imie, jTextField4.getText(), jTextField7.getText(), 
+                    jTextField6.getText(), jTextField5.getText(), jTextField8.getText(), jTextField24.getText());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+        JOptionPane.showMessageDialog(this, tekst);
+        DodajKlienta.setVisible(false);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void PrzegladajklientowPMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrzegladajklientowPMActionPerformed
+//        String tekst = "";
+//        try {
+//            //JPanel panel = new JPanel();
+//            //panel.setSize(100,100);
+//            tekst = polaczenie.wyswietlDane();
+//            jTable2 = new JTable(polaczenie.data, polaczenie.columnNames);
+//            TableColumn col;
+//            for (int i = 0; i < jTable2.getColumnCount(); i++) {
+//                col = jTable2.getColumnModel().getColumn(i);
+//                col.setMaxWidth(250);
+//            }
+//            jScrollPane1 = new JScrollPane(jTable2);
+//            //this.add(scrollPane);
+//            //wyswietlKlientow.add(this);
+//            wyswietlKlientow.add(jButton1);
+//            wyswietlKlientow.add(jScrollPane1);
+//            wyswietlKlientow.setSize(600,400);
+//            wyswietlKlientow.setVisible(true);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        
+//        JOptionPane.showMessageDialog(this, tekst);
+        Wyswietl wys = new Wyswietl();
+        wys.wyswietlDane();
+        
+    }//GEN-LAST:event_PrzegladajklientowPMActionPerformed
+
+    
     /**
      * @param args the command line arguments
      */
@@ -868,7 +984,13 @@ DodajTowar.setVisible(true);        // TODO add your handling code here:
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                new GUI().setVisible(true);
+                try {
+                    new GUI().setVisible(true);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -910,6 +1032,7 @@ DodajTowar.setVisible(true);        // TODO add your handling code here:
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -962,6 +1085,7 @@ DodajTowar.setVisible(true);        // TODO add your handling code here:
     private javax.swing.JTextField jTextField21;
     private javax.swing.JTextField jTextField22;
     private javax.swing.JTextField jTextField23;
+    private javax.swing.JTextField jTextField24;
     private javax.swing.JTextField jTextField26;
     private javax.swing.JTextField jTextField28;
     private javax.swing.JTextField jTextField3;
@@ -973,7 +1097,12 @@ DodajTowar.setVisible(true);        // TODO add your handling code here:
     private javax.swing.JTextField jTextField9;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JFileChooser wybierzplik;
+    public javax.swing.JInternalFrame wyswietlKlientow;
     private javax.swing.JLabel zdjecie;
     // End of variables declaration//GEN-END:variables
     logowanie logowanie;
+    Polaczenie polaczenie;
+    Connection connection;
+    JTable jTable2;
+    JScrollPane jScrollPane1;
 }
