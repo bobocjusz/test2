@@ -29,6 +29,7 @@ public class GUI extends javax.swing.JFrame {
         wybierzplik.setVisible(false);
         logowanie = new logowanie();
         connection = logowanie.connection;
+        polaczenie = new Polaczenie();
     }
 
     /**
