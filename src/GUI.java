@@ -26,9 +26,9 @@ public class GUI extends javax.swing.JFrame {
      */
     public GUI() throws ClassNotFoundException, SQLException {
         initComponents();
-        polaczenie = new Polaczenie();
         wybierzplik.setVisible(false);
-        
+        logowanie = new logowanie();
+        connection = logowanie.connection;
     }
 
     /**
@@ -788,13 +788,13 @@ public class GUI extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         this.dispose();
-        try {
-            logowanie = new logowanie();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            logowanie = new logowanie();
+//        } catch (ClassNotFoundException ex) {
+//            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         logowanie.setVisible(true);
 
 // TODO add your handling code here:
@@ -918,32 +918,12 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void PrzegladajklientowPMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrzegladajklientowPMActionPerformed
-//        String tekst = "";
-//        try {
-//            //JPanel panel = new JPanel();
-//            //panel.setSize(100,100);
-//            tekst = polaczenie.wyswietlDane();
-//            jTable2 = new JTable(polaczenie.data, polaczenie.columnNames);
-//            TableColumn col;
-//            for (int i = 0; i < jTable2.getColumnCount(); i++) {
-//                col = jTable2.getColumnModel().getColumn(i);
-//                col.setMaxWidth(250);
-//            }
-//            jScrollPane1 = new JScrollPane(jTable2);
-//            //this.add(scrollPane);
-//            //wyswietlKlientow.add(this);
-//            wyswietlKlientow.add(jButton1);
-//            wyswietlKlientow.add(jScrollPane1);
-//            wyswietlKlientow.setSize(600,400);
-//            wyswietlKlientow.setVisible(true);
-//        } catch (SQLException ex) {
-//            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        
-//        JOptionPane.showMessageDialog(this, tekst);
         Wyswietl wys = new Wyswietl();
-        wys.wyswietlDane();
-        
+        JInternalFrame t = new JInternalFrame();
+        t.setSize(400, 400);
+        t.add(wys.wyswietlDane(connection));
+        jDesktopPane1.add(t);
+        t.setVisible(true);
     }//GEN-LAST:event_PrzegladajklientowPMActionPerformed
 
     

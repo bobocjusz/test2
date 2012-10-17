@@ -17,16 +17,15 @@ import javax.swing.table.TableColumn;
  * @author Dagmara
  */
 public class Wyswietl {
-    public JFrame wyswietlDane () {
+    Connection connection;
+    Polaczenie loguj;
+    
+    public JScrollPane wyswietlDane (Connection connection) {
         Vector columnNames = new Vector();
         Vector data = new Vector();
-        JPanel p=new JPanel();
         try {
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            Connection con = DriverManager.getConnection( "jdbc:oracle:thin:@192.168.1.30:1521:DB11G", "DAGMARA", "123");
-            String sql = "Select * from DAGMARA.Klienci";
-            java.sql.Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery( sql );
+            java.sql.Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * from DAGMARA.Klienci");
             ResultSetMetaData md = rs.getMetaData();
             int columns = md.getColumnCount();
             for (int i = 1; i <= columns; i++) {
@@ -51,12 +50,7 @@ public class Wyswietl {
             col = table.getColumnModel().getColumn(i);
             col.setMaxWidth(250);
         }
-        JScrollPane scrollPane = new JScrollPane( table );
-        p.add( scrollPane );
-        JFrame f=new JFrame();
-        f.add(p);
-        f.setSize(1000,400);
-        f.setVisible(true);
-        return f;
+        JScrollPane scrollPane = new JScrollPane(table);
+        return scrollPane;
     }
 }

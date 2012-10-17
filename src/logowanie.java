@@ -1,5 +1,7 @@
 
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,12 +18,17 @@ import javax.swing.JOptionPane;
  */
 public class logowanie extends javax.swing.JFrame {
     Connection connection;
+    String tekst;
+    GUI GUI;
+    Polaczenie loguj;
+    String dialog;
     /**
      * Creates new form logowanie
      */
     public logowanie() throws ClassNotFoundException, SQLException {
         initComponents();
         loguj = new Polaczenie();
+        this.connection = loguj.connection;
     }
 
     /**
@@ -50,7 +57,11 @@ public class logowanie extends javax.swing.JFrame {
 
         jLabel3.setText("Haslo");
 
-        jPasswordField1.setText("jPasswordField1");
+        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jPasswordField1ActionPerformed(evt);
+            }
+        });
 
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -125,23 +136,30 @@ public class logowanie extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+  
+        jTextField1.getText();
+        jPasswordField1.getText();
+        java.sql.Statement s = null;
+        
         try {
-            GUI = new GUI();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(logowanie.class.getName()).log(Level.SEVERE, null, ex);
+            s = connection.createStatement();
+            ResultSet result = s.executeQuery("SELECT * FROM DAGMARA.Hasla WHERE Login = '" + jTextField1.getText() + "' AND Haslo = '" + jPasswordField1.getText() + "'");
+            if (result.next()) {
+                GUI = new GUI();
+                this.dispose();
+                dialog = loguj.tekst;
+                JOptionPane.showMessageDialog(this, dialog);
+                if (dialog.equals("Połączono!")) {
+                    GUI.setVisible(true);
+                }
+            } 
+            else {
+                JOptionPane.showMessageDialog(this, "Podałeś zły login lub hasło!");
+            }
         } catch (SQLException ex) {
             Logger.getLogger(logowanie.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        this.dispose();
-        //GUI.setVisible(true);
-
-        dialog = loguj.tekst;
-        JOptionPane.showMessageDialog(this, dialog);
-        if (dialog.equals("Połączono!")) {
-                GUI.setVisible(true);
-        }
-        else {
-                //new logowanie();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(logowanie.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -150,6 +168,10 @@ public class logowanie extends javax.swing.JFrame {
         System.exit(0);
     // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPasswordField1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -207,7 +229,5 @@ public class logowanie extends javax.swing.JFrame {
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
-    GUI GUI;
-    Polaczenie loguj;
-    String dialog;
+
 }
