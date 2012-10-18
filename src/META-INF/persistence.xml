@@ -4,7 +4,7 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>ZPI.Klienci</class>
     <class>ZPI.Hasla</class>
-    <class>test.Klienci</class>
+    <class>aplikacja.Klienci</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@cytrynowypatrol.no-ip.org:1521:DB11G"/>
       <property name="javax.persistence.jdbc.password" value="123"/>
