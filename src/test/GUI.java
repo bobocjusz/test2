@@ -1,3 +1,5 @@
+package test;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -40,9 +42,13 @@ public class GUI extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jToggleButton1 = new javax.swing.JToggleButton();
         buttonGroup1 = new javax.swing.ButtonGroup();
+        ZPIPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("ZPIPU").createEntityManager();
+        klienciQuery = java.beans.Beans.isDesignTime() ? null : ZPIPUEntityManager.createQuery("SELECT k FROM Klienci k");
+        klienciList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : klienciQuery.getResultList();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         DodajKlienta = new javax.swing.JInternalFrame();
         jLabel2 = new javax.swing.JLabel();
@@ -116,6 +122,9 @@ public class GUI extends javax.swing.JFrame {
         WybierzPlik = new javax.swing.JInternalFrame();
         wybierzplik = new javax.swing.JFileChooser();
         wyswietlKlientow = new javax.swing.JInternalFrame();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jButton7 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -316,10 +325,10 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(DodajKlientaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jButton1))
-                .addContainerGap(106, Short.MAX_VALUE))
+                .addContainerGap(114, Short.MAX_VALUE))
         );
 
-        DodajKlienta.setBounds(30, 10, 395, 560);
+        DodajKlienta.setBounds(30, 10, 395, 568);
         jDesktopPane1.add(DodajKlienta, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         DodajDostawce.setTitle("Dodaj dostawcę");
@@ -449,10 +458,10 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(DodajDostawceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
                     .addComponent(jButton4))
-                .addContainerGap(121, Short.MAX_VALUE))
+                .addContainerGap(129, Short.MAX_VALUE))
         );
 
-        DodajDostawce.setBounds(0, 0, 334, 566);
+        DodajDostawce.setBounds(0, 0, 334, 574);
         jDesktopPane1.add(DodajDostawce, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         DodajTowar.setTitle("Dodaj towar");
@@ -539,7 +548,7 @@ public class GUI extends javax.swing.JFrame {
         DodajTowarLayout.setVerticalGroup(
             DodajTowarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(DodajTowarLayout.createSequentialGroup()
-                .addContainerGap(27, Short.MAX_VALUE)
+                .addContainerGap(35, Short.MAX_VALUE)
                 .addGroup(DodajTowarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(DodajTowarLayout.createSequentialGroup()
                         .addGroup(DodajTowarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -581,7 +590,7 @@ public class GUI extends javax.swing.JFrame {
                 .addGap(58, 58, 58))
         );
 
-        DodajTowar.setBounds(0, 0, 629, 369);
+        DodajTowar.setBounds(0, 0, 629, 377);
         jDesktopPane1.add(DodajTowar, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         WybierzPlik.setTitle("Dodaj towar");
@@ -595,10 +604,10 @@ public class GUI extends javax.swing.JFrame {
         );
         WybierzPlikLayout.setVerticalGroup(
             WybierzPlikLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 424, Short.MAX_VALUE)
+            .addGap(0, 432, Short.MAX_VALUE)
         );
 
-        WybierzPlik.setBounds(0, 0, 608, 457);
+        WybierzPlik.setBounds(0, 0, 608, 465);
         jDesktopPane1.add(WybierzPlik, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         wybierzplik.addActionListener(new java.awt.event.ActionListener() {
@@ -612,18 +621,70 @@ public class GUI extends javax.swing.JFrame {
         wyswietlKlientow.setTitle("Klienci");
         wyswietlKlientow.setVisible(false);
 
+        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, klienciList, jTable1);
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nik}"));
+        columnBinding.setColumnName("Nik");
+        columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nip}"));
+        columnBinding.setColumnName("Nip");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nazwaFirmy}"));
+        columnBinding.setColumnName("Nazwa Firmy");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nazwisko}"));
+        columnBinding.setColumnName("Nazwisko");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${imie}"));
+        columnBinding.setColumnName("Imie");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${miasto}"));
+        columnBinding.setColumnName("Miasto");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${ulica}"));
+        columnBinding.setColumnName("Ulica");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${numer}"));
+        columnBinding.setColumnName("Numer");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${kodPocztowy}"));
+        columnBinding.setColumnName("Kod Pocztowy");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${poczta}"));
+        columnBinding.setColumnName("Poczta");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${telefon}"));
+        columnBinding.setColumnName("Telefon");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${login}"));
+        columnBinding.setColumnName("Login");
+        columnBinding.setColumnClass(String.class);
+        bindingGroup.addBinding(jTableBinding);
+        jTableBinding.bind();
+        jScrollPane2.setViewportView(jTable1);
+
+        jButton7.setText("jButton7");
+
         javax.swing.GroupLayout wyswietlKlientowLayout = new javax.swing.GroupLayout(wyswietlKlientow.getContentPane());
         wyswietlKlientow.getContentPane().setLayout(wyswietlKlientowLayout);
         wyswietlKlientowLayout.setHorizontalGroup(
             wyswietlKlientowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 452, Short.MAX_VALUE)
+            .addGroup(wyswietlKlientowLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton7)
+                .addGap(76, 76, 76))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 516, Short.MAX_VALUE)
         );
         wyswietlKlientowLayout.setVerticalGroup(
             wyswietlKlientowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 431, Short.MAX_VALUE)
+            .addGroup(wyswietlKlientowLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50)
+                .addComponent(jButton7)
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
-        wyswietlKlientow.setBounds(0, 0, 468, 464);
+        wyswietlKlientow.setBounds(0, 0, 532, 482);
         jDesktopPane1.add(wyswietlKlientow, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jMenu6.setText("Aplikacja");
@@ -784,6 +845,8 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        bindingGroup.bind();
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -893,16 +956,18 @@ public class GUI extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        String imie = null;
-        String nazwisko = null;
-        String nazwa_firmy = null;
+        String imie = "";
+        String nazwisko = "";
+        String nazwa_firmy = "";
   
         if (Osobafizyczna.isSelected()) {
             imie = jTextField1.getText();
-            nazwisko = jTextField2.getText(); 
+            nazwisko = jTextField2.getText();
+            
         }
         else {
             nazwa_firmy = jTextField1.getText();
+            
         }
         
         String tekst = "Błąd !";
@@ -922,9 +987,10 @@ public class GUI extends javax.swing.JFrame {
         Wyswietl wys = new Wyswietl();
         JInternalFrame t = new JInternalFrame();
         t.setSize(400, 400);
-        t.add(wys.wyswietlDane(connection));
-        jDesktopPane1.add(t);
-        t.setVisible(true);
+        //t.add(wys.wyswietlDane(connection));
+        //jDesktopPane1.add(t);
+       // t.setVisible(true);
+        wyswietlKlientow.setVisible(true);
     }//GEN-LAST:event_PrzegladajklientowPMActionPerformed
 
     
@@ -986,6 +1052,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem PrzegladajklientowPM;
     private javax.swing.JInternalFrame WybierzPlik;
     private javax.swing.JMenuItem WyszukajklientowPM;
+    private javax.persistence.EntityManager ZPIPUEntityManager;
     private javax.swing.JButton ZaladujZdjecieTowaru;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
@@ -994,6 +1061,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1046,10 +1114,12 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
@@ -1077,9 +1147,12 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     private javax.swing.JToggleButton jToggleButton1;
+    private java.util.List<test.Klienci> klienciList;
+    private javax.persistence.Query klienciQuery;
     private javax.swing.JFileChooser wybierzplik;
     public javax.swing.JInternalFrame wyswietlKlientow;
     private javax.swing.JLabel zdjecie;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
     logowanie logowanie;
     Polaczenie polaczenie;
