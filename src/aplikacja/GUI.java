@@ -55,6 +55,8 @@ public class GUI extends javax.swing.JFrame {
         buttonGroup2 = new javax.swing.ButtonGroup();
         buttonGroup3 = new javax.swing.ButtonGroup();
         znajdzKNIK = java.beans.Beans.isDesignTime() ? null : ZPIPUEntityManager0.createQuery("SELECT k FROM Klienci k WHERE k.nik = :p"); // NOI18N
+        znajdzKNazwisko = java.beans.Beans.isDesignTime() ? null : ZPIPUEntityManager0.createQuery("SELECT k FROM Klienci k WHERE k.nazwisko = :p");
+        znajdzKFirma = java.beans.Beans.isDesignTime() ? null : ZPIPUEntityManager0.createQuery("SELECT k FROM Klienci k WHERE k.nazwaFirmy = :p");
         jDesktopPane1 = new javax.swing.JDesktopPane();
         DodajKlienta = new javax.swing.JInternalFrame();
         jLabel2 = new javax.swing.JLabel();
@@ -132,6 +134,7 @@ public class GUI extends javax.swing.JFrame {
         EdycjaKlientaGuzik = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         TabelaKlienci = new javax.swing.JTable();
+        jButton12 = new javax.swing.JButton();
         EdycjaKlienta = new javax.swing.JInternalFrame();
         jLabel38 = new javax.swing.JLabel();
         jLabel39 = new javax.swing.JLabel();
@@ -166,8 +169,8 @@ public class GUI extends javax.swing.JFrame {
         jTextField27 = new javax.swing.JTextField();
         jTextField29 = new javax.swing.JTextField();
         jRadioButton3 = new javax.swing.JRadioButton();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
+        wyszukajKlientaSzukaj = new javax.swing.JButton();
+        wyszukajKlientaAnuluj = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -731,6 +734,13 @@ public class GUI extends javax.swing.JFrame {
         jTableBinding.bind();
         jScrollPane2.setViewportView(TabelaKlienci);
 
+        jButton12.setText("Znajdz klienta");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout wyswietlKlientowLayout = new javax.swing.GroupLayout(wyswietlKlientow.getContentPane());
         wyswietlKlientow.getContentPane().setLayout(wyswietlKlientowLayout);
         wyswietlKlientowLayout.setHorizontalGroup(
@@ -740,6 +750,8 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(wyswietlKlientowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(wyswietlKlientowLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton12)
+                        .addGap(44, 44, 44)
                         .addComponent(EdycjaKlientaGuzik)
                         .addGap(35, 35, 35)
                         .addComponent(jButton7)
@@ -756,7 +768,8 @@ public class GUI extends javax.swing.JFrame {
                 .addGap(38, 38, 38)
                 .addGroup(wyswietlKlientowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton7)
-                    .addComponent(EdycjaKlientaGuzik))
+                    .addComponent(EdycjaKlientaGuzik)
+                    .addComponent(jButton12))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
 
@@ -926,33 +939,59 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(EdycjaKlientaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton11)
                     .addComponent(jButton10))
-                .addContainerGap(104, Short.MAX_VALUE))
+                .addContainerGap(100, Short.MAX_VALUE))
         );
 
         EdycjaKlienta.setBounds(55, 36, 370, 550);
         jDesktopPane1.add(EdycjaKlienta, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        wyszukajKlienta.setVisible(true);
+        wyszukajKlienta.setVisible(false);
 
         jLabel1.setText("Wyszukaj klienta używając jego :");
 
         buttonGroup3.add(jRadioButton1);
         jRadioButton1.setText("NIK");
-
-        buttonGroup3.add(jRadioButton2);
-        jRadioButton2.setText("Nazwisko");
-
-        buttonGroup3.add(jRadioButton3);
-        jRadioButton3.setText("Nazwa Firmy");
-
-        jButton8.setText("Szukaj");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
+        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
+                jRadioButton1ActionPerformed(evt);
             }
         });
 
-        jButton9.setText("Anuluj");
+        jTextField25.setEnabled(false);
+
+        buttonGroup3.add(jRadioButton2);
+        jRadioButton2.setText("Nazwisko");
+        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton2ActionPerformed(evt);
+            }
+        });
+
+        jTextField27.setEnabled(false);
+
+        jTextField29.setEnabled(false);
+
+        buttonGroup3.add(jRadioButton3);
+        jRadioButton3.setText("Nazwa Firmy");
+        jRadioButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton3ActionPerformed(evt);
+            }
+        });
+
+        wyszukajKlientaSzukaj.setText("Szukaj");
+        wyszukajKlientaSzukaj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                wyszukajKlientaSzukajActionPerformed(evt);
+            }
+        });
+
+        wyszukajKlientaAnuluj.setText("Anuluj");
+        wyszukajKlientaAnuluj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                wyszukajKlientaAnulujActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout wyszukajKlientaLayout = new javax.swing.GroupLayout(wyszukajKlienta.getContentPane());
         wyszukajKlienta.getContentPane().setLayout(wyszukajKlientaLayout);
@@ -973,9 +1012,9 @@ public class GUI extends javax.swing.JFrame {
                             .addComponent(jTextField25, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField27, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(wyszukajKlientaLayout.createSequentialGroup()
-                                .addComponent(jButton8)
+                                .addComponent(wyszukajKlientaSzukaj)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton9)))))
+                                .addComponent(wyszukajKlientaAnuluj)))))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
         wyszukajKlientaLayout.setVerticalGroup(
@@ -997,12 +1036,12 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(jTextField29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(wyszukajKlientaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton8)
-                    .addComponent(jButton9))
-                .addContainerGap(36, Short.MAX_VALUE))
+                    .addComponent(wyszukajKlientaSzukaj)
+                    .addComponent(wyszukajKlientaAnuluj))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
-        wyszukajKlienta.setBounds(0, 0, 331, 258);
+        wyszukajKlienta.setBounds(0, 0, 331, 266);
         jDesktopPane1.add(wyszukajKlienta, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jMenu6.setText("Aplikacja");
@@ -1073,6 +1112,11 @@ public class GUI extends javax.swing.JFrame {
         jMenu4.add(PrzegladajklientowPM);
 
         WyszukajklientowPM.setText("Wyszukaj klientów");
+        WyszukajklientowPM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                WyszukajklientowPMActionPerformed(evt);
+            }
+        });
         jMenu4.add(WyszukajklientowPM);
 
         jMenuBar1.add(jMenu4);
@@ -1397,23 +1441,88 @@ private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
        TabelaKlienci.clearSelection();
        
          
-         //EdycjaKlienta.setVisible(false);
+         EdycjaKlienta.setVisible(false);
                    // TODO add your handling code here:
 }//GEN-LAST:event_jButton11ActionPerformed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+    private void wyszukajKlientaSzukajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wyszukajKlientaSzukajActionPerformed
 if (jRadioButton1.isSelected()==true)
         {
             int NIK =Integer.parseInt(jTextField25.getText());
-            
-            znajdzKNIK.setParameter("p", NIK);
+         znajdzKNIK.setParameter("p", NIK);
             klienciList.clear();
            klienciList.addAll(znajdzKNIK.getResultList());
            wyswietlKlientow.setVisible(true);
            TabelaKlienci.repaint();
         
-        }// TODO add your handling code here:
-    }//GEN-LAST:event_jButton8ActionPerformed
+        }else jTextField25.setEnabled(false);
+if (jRadioButton2.isSelected()==true)
+        {
+        znajdzKNazwisko.setParameter("p", jTextField27.getText());
+            klienciList.clear();
+           klienciList.addAll(znajdzKNazwisko.getResultList());
+           wyswietlKlientow.setVisible(true);
+           TabelaKlienci.repaint();
+        
+        }
+if (jRadioButton3.isSelected()==true)
+        {jTextField29.setEnabled(true);
+        znajdzKFirma.setParameter("p", jTextField29.getText());
+            klienciList.clear();
+           klienciList.addAll(znajdzKFirma.getResultList());
+           wyswietlKlientow.setVisible(true);
+           TabelaKlienci.repaint();
+        
+        }
+
+jTextField25.setText(""); jTextField27.setText(""); jTextField29.setText("");
+jTextField25.setEnabled(false);jTextField27.setEnabled(false);jTextField29.setEnabled(false);
+jRadioButton3.setSelected(false);jRadioButton2.setSelected(false);jRadioButton1.setSelected(false);
+wyszukajKlienta.setVisible(false);
+//wyswietlKlientow.setVisible(true);// TODO add your handling code here:
+    }//GEN-LAST:event_wyszukajKlientaSzukajActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+ wyswietlKlientow.setVisible(false);
+ wyszukajKlienta.setVisible(true);// TODO add your handling code here:
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void wyszukajKlientaAnulujActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wyszukajKlientaAnulujActionPerformed
+jTextField25.setText(""); jTextField27.setText(""); jTextField29.setText(""); 
+jRadioButton3.setSelected(false);jRadioButton2.setSelected(false);jRadioButton1.setSelected(false);
+wyszukajKlienta.setVisible(false);// TODO add your handling code here:
+    }//GEN-LAST:event_wyszukajKlientaAnulujActionPerformed
+
+    private void WyszukajklientowPMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_WyszukajklientowPMActionPerformed
+wyszukajKlienta.setVisible(true);        // TODO add your handling code here:
+    }//GEN-LAST:event_WyszukajklientowPMActionPerformed
+
+    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+ if (jRadioButton1.isSelected()==true)
+        {jTextField25.setEnabled(true);
+        jTextField29.setEnabled(false);
+        jTextField27.setEnabled(false);
+        }
+// TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButton1ActionPerformed
+
+    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
+ if (jRadioButton2.isSelected()==true)
+        {jTextField27.setEnabled(true);
+        jTextField25.setEnabled(false);
+        jTextField29.setEnabled(false);
+        }
+         // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButton2ActionPerformed
+
+    private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
+ if (jRadioButton3.isSelected()==true)
+        {jTextField29.setEnabled(true);
+        jTextField25.setEnabled(false);  
+        jTextField27.setEnabled(false);  
+        }
+       // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButton3ActionPerformed
 
     
     /**
@@ -1487,14 +1596,13 @@ if (jRadioButton1.isSelected()==true)
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1612,8 +1720,12 @@ if (jRadioButton1.isSelected()==true)
     private javax.swing.JFileChooser wybierzplik;
     public javax.swing.JInternalFrame wyswietlKlientow;
     private javax.swing.JInternalFrame wyszukajKlienta;
+    private javax.swing.JButton wyszukajKlientaAnuluj;
+    private javax.swing.JButton wyszukajKlientaSzukaj;
     private javax.swing.JLabel zdjecie;
+    private javax.persistence.Query znajdzKFirma;
     private javax.persistence.Query znajdzKNIK;
+    private javax.persistence.Query znajdzKNazwisko;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
     logowanie logowanie;
