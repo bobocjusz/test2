@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import javax.swing.table.*;
 import javax.swing.JTable.*;
 import java.sql.*;
+import javax.persistence.Query;
 /**
  *
  * @author Slawek
@@ -51,6 +52,9 @@ public class GUI extends javax.swing.JFrame {
         ZPIPUEntityManager0 = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("ZPIPU").createEntityManager();
         klienciQuery = java.beans.Beans.isDesignTime() ? null : ZPIPUEntityManager0.createQuery("SELECT k FROM Klienci k");
         klienciList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(klienciQuery.getResultList());
+        buttonGroup2 = new javax.swing.ButtonGroup();
+        buttonGroup3 = new javax.swing.ButtonGroup();
+        znajdzKNIK = java.beans.Beans.isDesignTime() ? null : ZPIPUEntityManager0.createQuery("SELECT k FROM Klienci k WHERE k.nik = :p"); // NOI18N
         jDesktopPane1 = new javax.swing.JDesktopPane();
         DodajKlienta = new javax.swing.JInternalFrame();
         jLabel2 = new javax.swing.JLabel();
@@ -154,6 +158,16 @@ public class GUI extends javax.swing.JFrame {
         jSeparator6 = new javax.swing.JSeparator();
         jLabel47 = new javax.swing.JLabel();
         jTextField46 = new javax.swing.JTextField();
+        wyszukajKlienta = new javax.swing.JInternalFrame();
+        jLabel1 = new javax.swing.JLabel();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jTextField25 = new javax.swing.JTextField();
+        jRadioButton2 = new javax.swing.JRadioButton();
+        jTextField27 = new javax.swing.JTextField();
+        jTextField29 = new javax.swing.JTextField();
+        jRadioButton3 = new javax.swing.JRadioButton();
+        jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -668,39 +682,51 @@ public class GUI extends javax.swing.JFrame {
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nik}"));
         columnBinding.setColumnName("Nik");
         columnBinding.setColumnClass(java.math.BigDecimal.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nip}"));
         columnBinding.setColumnName("Nip");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nazwaFirmy}"));
         columnBinding.setColumnName("Nazwa Firmy");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nazwisko}"));
         columnBinding.setColumnName("Nazwisko");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${imie}"));
         columnBinding.setColumnName("Imie");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${miasto}"));
         columnBinding.setColumnName("Miasto");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${ulica}"));
         columnBinding.setColumnName("Ulica");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${numer}"));
         columnBinding.setColumnName("Numer");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${kodPocztowy}"));
         columnBinding.setColumnName("Kod Pocztowy");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${poczta}"));
         columnBinding.setColumnName("Poczta");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${telefon}"));
         columnBinding.setColumnName("Telefon");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${login}"));
         columnBinding.setColumnName("Login");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         jScrollPane2.setViewportView(TabelaKlienci);
@@ -720,7 +746,7 @@ public class GUI extends javax.swing.JFrame {
                         .addGap(42, 42, 42))
                     .addGroup(wyswietlKlientowLayout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 636, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addContainerGap(54, Short.MAX_VALUE))))
         );
         wyswietlKlientowLayout.setVerticalGroup(
             wyswietlKlientowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -734,7 +760,7 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap(36, Short.MAX_VALUE))
         );
 
-        wyswietlKlientow.setBounds(32, 30, 672, 330);
+        wyswietlKlientow.setBounds(32, 30, 716, 330);
         jDesktopPane1.add(wyswietlKlientow, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         EdycjaKlienta.setTitle("Edycja Klienta");
@@ -745,7 +771,7 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel39.setText("Nazwisko");
 
-        buttonGroup1.add(Osobafizyczna2);
+        buttonGroup2.add(Osobafizyczna2);
         Osobafizyczna2.setText("Osoba fizyczna");
         if (Osobafizyczna.isSelected()==true) {Firma.setSelected(false);} else {Osobafizyczna.setSelected(true);}
         Osobafizyczna2.addActionListener(new java.awt.event.ActionListener() {
@@ -754,7 +780,7 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
-        buttonGroup1.add(Firma2);
+        buttonGroup2.add(Firma2);
         Firma2.setText("Firma");
         Firma2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -900,11 +926,84 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(EdycjaKlientaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton11)
                     .addComponent(jButton10))
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addContainerGap(104, Short.MAX_VALUE))
         );
 
         EdycjaKlienta.setBounds(55, 36, 370, 550);
         jDesktopPane1.add(EdycjaKlienta, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        wyszukajKlienta.setVisible(true);
+
+        jLabel1.setText("Wyszukaj klienta używając jego :");
+
+        buttonGroup3.add(jRadioButton1);
+        jRadioButton1.setText("NIK");
+
+        buttonGroup3.add(jRadioButton2);
+        jRadioButton2.setText("Nazwisko");
+
+        buttonGroup3.add(jRadioButton3);
+        jRadioButton3.setText("Nazwa Firmy");
+
+        jButton8.setText("Szukaj");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        jButton9.setText("Anuluj");
+
+        javax.swing.GroupLayout wyszukajKlientaLayout = new javax.swing.GroupLayout(wyszukajKlienta.getContentPane());
+        wyszukajKlienta.getContentPane().setLayout(wyszukajKlientaLayout);
+        wyszukajKlientaLayout.setHorizontalGroup(
+            wyszukajKlientaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(wyszukajKlientaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(wyszukajKlientaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addGroup(wyszukajKlientaLayout.createSequentialGroup()
+                        .addGroup(wyszukajKlientaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jRadioButton2)
+                            .addComponent(jRadioButton1)
+                            .addComponent(jRadioButton3))
+                        .addGap(25, 25, 25)
+                        .addGroup(wyszukajKlientaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextField29, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField25, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField27, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(wyszukajKlientaLayout.createSequentialGroup()
+                                .addComponent(jButton8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton9)))))
+                .addContainerGap(36, Short.MAX_VALUE))
+        );
+        wyszukajKlientaLayout.setVerticalGroup(
+            wyszukajKlientaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(wyszukajKlientaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addGroup(wyszukajKlientaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioButton1)
+                    .addComponent(jTextField25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(wyszukajKlientaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioButton2)
+                    .addComponent(jTextField27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(wyszukajKlientaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioButton3)
+                    .addComponent(jTextField29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(wyszukajKlientaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton8)
+                    .addComponent(jButton9))
+                .addContainerGap(36, Short.MAX_VALUE))
+        );
+
+        wyszukajKlienta.setBounds(0, 0, 331, 258);
+        jDesktopPane1.add(wyszukajKlienta, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jMenu6.setText("Aplikacja");
 
@@ -1277,6 +1376,7 @@ private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
             
         }
         String tekst = "Błąd !";
+         TabelaKlienci.clearSelection();
         try {
             tekst = polaczenie.edycjaKlient(NIK, jTextField39.getText(), nazwa_firmy, nazwisko, imie, jTextField40.getText(), jTextField43.getText(), 
                     jTextField42.getText(), jTextField41.getText(), jTextField44.getText(), jTextField46.getText());
@@ -1286,15 +1386,34 @@ private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }        
         JOptionPane.showMessageDialog(this, tekst);
-        DodajKlienta.setVisible(false);
+       
            klienciList.clear();
-         // klienciQuery.
-           ZPIPUEntityManager0.clear(); 
+          // Query dupa = ZPIPUEntityManager0.createQuery("UPDATE Klienci SET telefon=746660024 WHERE nik=37");
+            //int update = dupa.executeUpdate();    
+           //klienciQuery.executeUpdate();
          klienciList.addAll(klienciQuery.getResultList());
-         wyswietlKlientow.repaint();    TabelaKlienci.repaint();  this.repaint();
-         EdycjaKlienta.setVisible(false);
+         TabelaKlienci.repaint();
+        // klienciList.addAll(klienciQuery.getResultList());
+       TabelaKlienci.clearSelection();
+       
+         
+         //EdycjaKlienta.setVisible(false);
                    // TODO add your handling code here:
 }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+if (jRadioButton1.isSelected()==true)
+        {
+            int NIK =Integer.parseInt(jTextField25.getText());
+            
+            znajdzKNIK.setParameter("p", NIK);
+            klienciList.clear();
+           klienciList.addAll(znajdzKNIK.getResultList());
+           wyswietlKlientow.setVisible(true);
+           TabelaKlienci.repaint();
+        
+        }// TODO add your handling code here:
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     
     /**
@@ -1363,6 +1482,8 @@ private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private javax.persistence.EntityManager ZPIPUEntityManager0;
     private javax.swing.JButton ZaladujZdjecieTowaru;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -1372,7 +1493,10 @@ private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JDesktopPane jDesktopPane1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -1434,6 +1558,9 @@ private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
@@ -1457,8 +1584,11 @@ private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private javax.swing.JTextField jTextField22;
     private javax.swing.JTextField jTextField23;
     private javax.swing.JTextField jTextField24;
+    private javax.swing.JTextField jTextField25;
     private javax.swing.JTextField jTextField26;
+    private javax.swing.JTextField jTextField27;
     private javax.swing.JTextField jTextField28;
+    private javax.swing.JTextField jTextField29;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField37;
     private javax.swing.JTextField jTextField38;
@@ -1481,7 +1611,9 @@ private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private javax.persistence.Query klienciQuery;
     private javax.swing.JFileChooser wybierzplik;
     public javax.swing.JInternalFrame wyswietlKlientow;
+    private javax.swing.JInternalFrame wyszukajKlienta;
     private javax.swing.JLabel zdjecie;
+    private javax.persistence.Query znajdzKNIK;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
     logowanie logowanie;

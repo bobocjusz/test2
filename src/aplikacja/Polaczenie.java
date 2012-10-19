@@ -7,6 +7,7 @@ package aplikacja;
 
 import java.sql.*;
 import java.util.Vector;
+import javax.persistence.Query;
 
 
 public class Polaczenie {
@@ -14,6 +15,7 @@ public class Polaczenie {
     String tekst;
     Vector columnNames;
     Vector data;
+   
     
     public Polaczenie() throws ClassNotFoundException, SQLException {
         try {
@@ -43,14 +45,18 @@ public class Polaczenie {
           public String edycjaKlient (Integer NIK,String NIP, String Nazwa_firmy, String Nazwisko, String Imie, String Miasto, String Ulica, String Numer, String Kod_pocztowy, String Poczta, String Telefon) throws ClassNotFoundException, SQLException {
         if (connection != null) {
             java.sql.Statement w = connection.createStatement();
-          
-            w.execute("UPDATE KLIENCI SET NIP='"+NIP+"', Nazwa_firmy='"+Nazwa_firmy+"', Nazwisko='"+Nazwisko+"', Imie='"+Imie+"', Miasto='"+Miasto+"', Ulica='"+Ulica+"', Numer='"+Numer+"', Kod_pocztowy='"+Kod_pocztowy+"', Poczta='"+Poczta+"', Telefon='"+Telefon+"' WHERE NIK='"+NIK+"'");
+            
+            int c=w.executeUpdate("UPDATE KLIENCI SET NIP='"+NIP+"', Nazwa_firmy='"+Nazwa_firmy+"', Nazwisko='"+Nazwisko+"', Imie='"+Imie+"', Miasto='"+Miasto+"', Ulica='"+Ulica+"', Numer='"+Numer+"', Kod_pocztowy='"+Kod_pocztowy+"', Poczta='"+Poczta+"', Telefon='"+Telefon+"' WHERE NIK='"+NIK+"'");
+            System.out.println(c);
             tekst = "Zmieniono zapis w bazie danych !!";
+            connection.commit();
             w.close();
-        } 
+                         
+                  } 
         else {
             tekst = "Nie moge się połączyć! I jest mega dupa";
         }
         return tekst;
     }
+       
 }
